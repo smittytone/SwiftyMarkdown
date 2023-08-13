@@ -11,14 +11,14 @@ import Foundation
 import AppKit
 
 extension SwiftyMarkdown {
-	
+
 	func font( for line : SwiftyLine, characterOverride : CharacterStyle? = nil ) -> NSFont {
 		var fontName : String?
 		var fontSize : CGFloat?
-		
+
 		var globalBold = false
 		var globalItalic = false
-		
+
 		let style : FontProperties
 		// What type are we and is there a font name set?
 		switch line.lineStyle as! MarkdownLineStyle {
@@ -41,7 +41,7 @@ extension SwiftyMarkdown {
 		default:
 			style = self.body
 		}
-		
+
 		fontName = style.fontName
 		fontSize = style.fontSize
 		switch style.fontStyle {
@@ -59,7 +59,7 @@ extension SwiftyMarkdown {
 		if fontName == nil {
 			fontName = body.fontName
 		}
-		
+
 		if let characterOverride = characterOverride {
 			switch characterOverride {
 			case .code:
@@ -80,7 +80,7 @@ extension SwiftyMarkdown {
 				break
 			}
 		}
-		
+
 		fontSize = fontSize == 0.0 ? nil : fontSize
 		let finalSize : CGFloat
 		if let existentFontSize = fontSize {
@@ -98,7 +98,7 @@ extension SwiftyMarkdown {
 		} else {
 			font = NSFont.systemFont(ofSize: finalSize)
 		}
-		
+
 		if globalItalic {
 			let italicDescriptor = font.fontDescriptor.withSymbolicTraits(.italic)
 			font = NSFont(descriptor: italicDescriptor, size: 0) ?? font
@@ -107,11 +107,11 @@ extension SwiftyMarkdown {
 			let boldDescriptor = font.fontDescriptor.withSymbolicTraits(.bold)
 			font = NSFont(descriptor: boldDescriptor, size: 0) ?? font
 		}
-		
+
 		return font
-		
+
 	}
-	
+
 	func color( for line : SwiftyLine ) -> NSColor {
 		// What type are we and is there a font name set?
 		switch line.lineStyle as! MarkdownLineStyle {
@@ -137,10 +137,12 @@ extension SwiftyMarkdown {
 			return body.color
 		case .yaml:
 			return body.color
+        case .link
+            return link.color
 		case .referencedLink:
 			return body.color
 		}
 	}
-	
+
 }
 #endif
