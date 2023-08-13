@@ -578,7 +578,7 @@ extension SwiftyMarkdown {
                     attributes[.underlineStyle] = self.link.underlineStyle.rawValue as AnyObject
                     attributes[.underlineColor] = self.link.underlineColor
                 }
-            } else {
+            } else if styles.contains(.link) {
                 attributes[.foregroundColor] = NSColor.red //self.link.color
                 attributes[.font] = self.font(for: line, characterOverride: .link)
             }
