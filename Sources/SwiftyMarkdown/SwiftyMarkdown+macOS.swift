@@ -137,10 +137,8 @@ extension SwiftyMarkdown {
 			return body.color
 		case .yaml:
 			return body.color
-        case .link
-            return link.color
-		case .referencedLink:
-			return body.color
+        case .referencedLink:
+			return link.color
 		}
 	}
 
