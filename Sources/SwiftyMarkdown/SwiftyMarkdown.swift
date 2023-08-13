@@ -570,7 +570,7 @@ extension SwiftyMarkdown {
 			}
 			
             if let linkIdx = styles.firstIndex(of: .link), linkIdx < token.metadataStrings.count {
-                attributes[.foregroundColor] = NSColor.red //self.link.color
+                attributes[.foregroundColor] = self.link.color
                 attributes[.font] = self.font(for: line, characterOverride: .link)
                 //attributes[.link] = token.metadataStrings[linkIdx] as AnyObject
                 
