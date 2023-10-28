@@ -153,6 +153,7 @@ If that is not set, then the system default will be used.
 	
 	static public var frontMatterRules = [
 		FrontMatterRule(openTag: "---", closeTag: "---", keyValueSeparator: ":")
+		FrontMatterRule(openTag: "---", closeTag: "...", keyValueSeparator: ":")
 	]
 	
 	static public var lineRules = [
