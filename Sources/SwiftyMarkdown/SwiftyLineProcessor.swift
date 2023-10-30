@@ -189,6 +189,10 @@ public class SwiftyLineProcessor {
 		let _ = outputString.removeFirst()
 		var closeFound = false
 		while !closeFound {
+			if outputString.count == 0 {
+			    return strings
+			}
+			
 			let nextString = outputString.removeFirst()
 			if nextString == existentRules.closeTag {
 				closeFound = true
