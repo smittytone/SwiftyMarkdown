@@ -171,46 +171,69 @@ public class SwiftyLineProcessor {
     }
 	
 	func processFrontMatter( _ strings : [String] ) -> [String] {
-		guard let firstString = strings.first?.trimmingCharacters(in: .whitespacesAndNewlines) else {
-			return strings
-		}
-		var rulesToApply : FrontMatterRule? = nil
-		for matter in self.frontMatterRules {
-			if firstString == matter.openTag {
-				rulesToApply = matter
-				break
-			}
-		}
-		guard let existentRules = rulesToApply else {
-			return strings
-		}
-		var outputString = strings
-		// Remove the first line, which is the front matter opening tag
-		let _ = outputString.removeFirst()
-		var closeFound = false
-		while !closeFound {
-			if outputString.count == 0 {
-			    return strings
-			}
-			
-			let nextString = outputString.removeFirst()
-			if nextString == existentRules.closeTag {
-				closeFound = true
-				continue
-			}
-			var keyValue = nextString.components(separatedBy: "\(existentRules.keyValueSeparator)")
-			if keyValue.count < 2 {
-				continue
-			}
-			let key = keyValue.removeFirst()
-			let value = keyValue.joined()
-			self.frontMatterAttributes[key] = value
-		}
-		while outputString.first?.isEmpty ?? false {
-			outputString.removeFirst()
-		}
-		return outputString
-	}
+
+    guard let firstString = strings.first?.trimmingCharacters(in: .whitespacesAndNewlines) else {
+        return strings
+    }
+
+    var rulesToApply : FrontMatterRule? = nil
+    for matter in self.frontMatterRules {
+        if firstString == matter.openTag {
+            rulesToApply = matter
+            break
+        }
+    }
+    guard let existentRules = rulesToApply else {
+        return strings
+    }
+
+    var outputString = strings
+    // Remove the first line, which is the front matter opening tag
+    let _ = outputString.removeFirst()
+    var closeFound = false
+    while !closeFound {
+        if outputString.count == 0 {
+            return strings
+        }
+
+        let nextString = outputString.removeFirst()
+
+        if nextString == existentRules.closeTag {
+            closeFound = true
+            continue
+        }
+
+        // Check if other start-matching rules apply
+        var done = false
+        for matter in self.frontMatterRules {
+            if existentRules.openTag == matter.openTag && existentRules != matter {
+                if nextString == matter.closeTag {
+                    closeFound = true
+                    done = true
+                    break
+                }
+            }
+        }
+
+        if done {
+            continue
+        }
+
+
+        var keyValue = nextString.components(separatedBy: "\(existentRules.keyValueSeparator)")
+        if keyValue.count < 2 {
+            continue
+        }
+        let key = keyValue.removeFirst()
+        let value = keyValue.joined()
+        self.frontMatterAttributes[key] = value
+    }
+    while outputString.first?.isEmpty ?? false {
+        outputString.removeFirst()
+    }
+    return outputString
+}
+
     
     public func process( _ string : String ) -> [SwiftyLine] {
         var foundAttributes : [SwiftyLine] = []
