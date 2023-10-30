@@ -206,7 +206,7 @@ public class SwiftyLineProcessor {
         // Check if other start-matching rules apply
         var done = false
         for matter in self.frontMatterRules {
-            if existentRules.openTag == matter.openTag && existentRules != matter {
+            if existentRules.openTag == matter.openTag && existentRules.closeTag != matter.closeTag {
                 if nextString == matter.closeTag {
                     closeFound = true
                     done = true
