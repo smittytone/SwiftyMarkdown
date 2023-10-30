@@ -152,8 +152,8 @@ If that is not set, then the system default will be used.
 @objc open class SwiftyMarkdown: NSObject {
 	
 	static public var frontMatterRules = [
-		FrontMatterRule(openTag: "---", closeTag: "---", keyValueSeparator: ":"),
-		FrontMatterRule(openTag: "---", closeTag: "...", keyValueSeparator: ":")
+		FrontMatterRule(openTag: "---", closeTag: "...", keyValueSeparator: ":"),
+		FrontMatterRule(openTag: "---", closeTag: "---", keyValueSeparator: ":")
 	]
 	
 	static public var lineRules = [
